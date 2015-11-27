@@ -14,7 +14,7 @@
 
 \begin{document}
 
-\title{BUMPER: A Tool to Cope with Natural Language Search of Millions Bugs and Fixes}
+\title{BUMPER: A Tool for Coping with Natural Language Searches of Millions of Bugs and Fixes}
 
 
 \author{\IEEEauthorblockN{Mathieu Nayrolles, }
@@ -35,7 +35,7 @@ abdelw@ece.concordia.ca}}
 % As a general rule, do not put math, special symbols or citations
 % in the abstract
 \begin{abstract}
-  In recent years, mining bug report (BR) repositories has perhaps been one of the most active software engineering research fields. There exist many open source and proprietary bug tracking and source code versioning systems that developers and researchers can use to examine bug reports so as to reason about software quality. The issue is that these repositories use different interfaces and ways to access and represent data, which hinders productivity and reuse. To address this, we introduce BUMPER (BUg Metarepository for dEvelopers and Researchers), a common infrastructure for developers and researchers interested in mining data from different (and heterogeneous) repositories. BUMPER is an open source web-based environment that extracts information from a variety of BR repositories and source code versioning systems. It is equipped with a powerful search engine to help users rapidly query the repositories using a single point of access. To demonstrate the effectiveness of BUMPER, we use it to build a large dataset from a variety of repositories. The dataset contains more than one million of bug reports and fixes. Both BUMPER and the dataset are publicly available online at https://bumper-app.com.
+  In recent years, mining bug report (BR) repositories has perhaps been one of the most active software engineering research fields. There exist many open source and proprietary bug tracking and source code version systems that developers and researchers can use to examine bug reports so as to reason about software quality. The issue is that these repositories use different interfaces and ways to access and represent data, which hinders productivity and reuse. To address this, we introduce BUMPER (BUg Metarepository for dEvelopers and Researchers), a common infrastructure for developers and researchers interested in mining data from many (heterogeneous) repositories. BUMPER is an open source web-based environment that extracts information from a variety of BR repositories and source code versioning systems. It is equipped with a powerful search engine to help users rapidly query the repositories using a single point of access. To demonstrate the effectiveness of BUMPER, we use it to build a large dataset from a variety of repositories. The dataset contains more than one million bug reports and fixes. Both BUMPER and the dataset are publicly available online at https://bumper-app.com.
 
 \end{abstract}
 
@@ -45,46 +45,49 @@ abdelw@ece.concordia.ca}}
 
 \section{Introduction}
 
-Debugging programs, during their creations or at maintenance time is challenging \cite{Pressman2005} and taxing --- Studies have shown that the cost of software maintenance can reach up to 70\% of the overall cost of the software development process.
+Debugging programs, an important software maintenance activity, is challenging \cite{Pressman2005} and labour-intensive. Studies have shown that the cost of software maintenance can reach up to 70\% of the overall cost of the software development process [REF].
 
-When facing a yet unknown bug, one might want to leverage decades of open-source software history in order to find a solution. Indeed, chances are a similar bug or crash has already been fixed somewhere in an open-source project.
+When facing a yet unknown bug, one might want to leverage decades of open-source software history in order to find a solution. The chances are that a similar bug or crash has already been fixed somewhere in another open-source project.
 
-However, each open-source project host its data in a different data repository and using different bug tracking and source code management systems. Moreover,   these systems have different interfaces to access data.
-The data are not represented in a uniform way either.
-This is further complicated by the fact that bug tracking tools and code versioning systems are not necessarily connected.
-The former follows the life of the bug itself and not its fixes, which are managed by the latter.
-As a general practice, developers create a link between the bug report system and the source versioning tool by either writing the bug \#ID in their commits message or add a link towards the Changeset as a comment in the bug report system.
+The problem is that each open-source project hosts its data in a different data repository, using different bug tracking and version control systems. Moreover, these systems have different interfaces to access data.
+The data is not represented in a uniform way either.
+This is further complicated by the fact that bug tracking tools and version control systems are not necessarily connected.
+The former follows the life of the bug, while the latter manages the fixes.
+As a general practice, developers create a link between the bug report system and the version control tool by either writing the bug \#ID in their commits message or add a link towards the changeset as a comment in the bug report system.
 
-As a result, one would have to search the source code versioning system repository to find candidate solutions.
- Moreover, developers mainly use classical search engines that index specialized sites such as StackOverflow.
-
-However, specialized sites are organized in the form of question-response where one explain his problem and gets answers from the community. While the answers are often accurate and precise, they do not leverage the history of open-source software that has been shown to provide useful insight to help with many maintenance activities such as bug fixing\cite{Saha2014}, bug reproduction\cite{Chen2013a}, fault analysis\cite{Nessa2008}, etc.
+As a result, one would have to search the version control system repository to find candidate solutions.
+ Moreover, developers mainly use classical search engines that index specialized sites such as StackOverflow [FOOTNOTE]. These sites are organized in the form of question-response where a developer submits a problem and receives answers from the community. While the answers are often accurate and precise, they do not leverage the history of open-source software that has been shown to provide useful insight to help with many maintenance activities such as bug fixing\cite{Saha2014}, bug reproduction\cite{Chen2013a}, fault analysis\cite{Nessa2008}, etc.
 
 In this paper, we introduce BUMPER (BUg Metarepository for dEvelopers and Researchers), a web-based infrastructure that can be used by software developers and researchers to access data from diverse repositories using natural language queries in a transparent manner, regardless of where the data were originally created and hosted.
 
-The idea behind BUMPER is that it can connect to any bug tracking and source code versioning system and download the data into a single database.
-BUMPER uses a web-based interface that allows users to search the aggregated database by expressing queries through a single access point.
-This way, users can focus on the analysis itself and not on the way data is represented or where it is located.
+The idea behind BUMPER is that it can connect to any bug tracking and version control systems and download the data into a single database. We created a common schema that represents data, generated stored in bug tracking and version control systems.
+BUMPER uses a web-based interface to allow users to search the aggregated database by expressing queries through a single point of access.
+This way, users can focus on the analysis itself and not on the way the data is represented or located.
 
-BUMPER supports many features including: (1) the ability to search large data repositories very efficiently using both natural languages and a specialized query language, (2) the mapping between the bug reports and the code involved to fix it, (3) the ability to export the search results in Json, CSV and XML formats.
+BUMPER supports many features including: (1) the ability to support multiple bug tracking and control version systems, (2) the ability to search very efficiently large data repositories using both natural language and a specialized query language, (3) the mapping between the bug reports and the fixes, and (4) the ability to export the search results in Json, CSV and XML formats.
 
 Finally, we asked developers to solve a bug using habitual habit and using BUMPER. The results indicate that our approach reduces the amount of data-sources to be visited in order to find a suitable solution for the bug at hand and therefore, speeding up the debugging and maintenance processes.
 
 \section{Bumper Components}
 \label{sec:Bumper Components}
 
-BUMPER aggregate data from various bug tracking and version control systems that can be efficiently accessed using a web-based interface.
-Currently, BUMPER supports 380 projects, more than 100,000 resolved/fixed and with 60,000 changesets from Netbeans and the Apache Software foundation’s softwares.
-It can readily be extended to support other systems.
-Using BUMPER, software engineers can query multiple repositories and save the data in various formats including Json, CSV, and XML for further analysis.
+Figure 1 shows BUMPER’s main interface. Currently, BUMPER supports 380 projects, more than 100,000 resolved/fixed and with 60,000 changesets from Netbeans and the Apache Software Foundation software systems. It can readily be extended to support other systems. 
+
+
+
+
+
+
 
 \subsection{Bumper architecture}
 \label{sub:Bumper architecture}
 
+Figure 2 shows the overall architecture of BUMPER. BUMPER relies on a highly scalable architecture composed of two Virtual Private Servers (VPS), hosted on a physical server. 
 
-BUMPER relies on a highly scalable architecture composed
-of two Virtual Private Servers (VPS), hosted on a physical
-server.
+
+
+
+
 The first server handles the web requests and
 runs three distinct components: Pound, Varnish, and NginX.
 Pound is a lightweight open source reverse proxy program
@@ -260,20 +263,23 @@ Total            &                 &             &                & 840         
 In summary, our consolidated dataset contains 102,707 bugs, 229,153 changesets, 68,809 files that have been modified to fix the bugs, 462,848 comments, and 388 distinct software tools.
 We also collected 221 million lines of code impacted by the changesets, identified 3,284 sub-projects, and 17,984 unique contributors to these bug report systems.
 
-We choose these five datasets because they exposed a great diversity in programming languages, teams, localization, utility and maturity.
+We choose these five datasets because they expose a great diversity in terms of the programming languages used to develop the applications, the size of the development teams, localization, utility and maturity.
 Moreover, the used different tools, i.e.
-Bugzilla, JIRA, Git and Mercurial, and therefore, Bumper is ready to host any other datasets that used any composition of these tools.
+Bugzilla, JIRA, Git and Mercurial, and therefore, Bumper is ready to host any other datasets that use a composition of these tools.
 
-Bumper users can follow the same process to add another
-Repositories from various bug tracking and version control
+Bumper users can follow the same process to add other repositories from various bug tracking and version control
 systems such as Eclipse, Mozilla Foundation datasets. The BUMPER architecture can then be used to organize and
 access multiple repositories in a unified manner.
 
-\section{Experiments}
-\label{sec:Experiments}
 
-In order to assess the efficiency of BUMPER during the debugging / maintenance processes we conduct an online survey in which we present participants with a bug to fix.
-Then, we ask them to find a suitable solution of the presented bug online as would have in a classical debugging / maintenance session and repeat the operation using BUMPER.
+\subsection{Usage Scenarios}
+\label{sub:Bumper Data Repository}
+
+1)	Bug Fixing
+
+An example of a real-life scenario where BUMPER can be useful would be that a developer trying to fix a bug. He or she could copy paste the faulty code, or the obtained error in the search bar of BUMPER. BUMPER will then return (in the matter of seconds) every bug report that contains references to the error at hand in the report or in the code developed to fix the bug in our 388 projects and 102,707 bugs. The developer can then leverage BUMPER’s search results to either find out that someone already fixed the exact same bug in another project and reuse the fix, analyse similar bugs—and their fixes—to design a solution for the problem, etc. 
+We conducted a preliminary study to assess the effectiveness of BUMPER to help with bug fixing tasks. 
+We ask a group of developers to find a suitable solution of the presented bug online as would have in a classical debugging / maintenance session and repeat the operation using BUMPER.
 Finally, participants were asked to report how long it took to find a suitable solution with both methods and to rate their experience using BUMPER.
 
 We presented participants of our online survey\footnote{http://goo.gl/forms/RvYFACkl7a} with the following made up bug\footnote{https://github.com/MathieuNls/bumper-csv}: \textit{When I run the CSVReader with a simple main like this:}
@@ -288,17 +294,28 @@ We presented participants of our online survey\footnote{http://goo.gl/forms/RvYF
 
 The solution to this simple bug is straight forward as we only have to add a null check to line 22 of CsvFileUtils\footnote{https://github.com/MathieuNls/bumper-csv/blob/master/src/CsvFileUtils.java}.
 
-Participants were asked to find a code a code snippet that can be slightly modified in order to fix a bug using Bumper and Google.
-The goal of the experiment was to compare how fast a suitable fix can be found using Bumper and Google.
-Consequently, we asked participant look for a fix online even if they know how to fix.
+Participants were asked to find a code snippet that can be slightly modified in order to fix a bug using BUMPER and Google.
+The goal of the experiment was to compare how fast a suitable fix can be found using BUMPER and Google.
+We send our survey to 20 participants and received 8 responses (40\%) and asked them to report their experience in terms of time taken to find a fix and webpages browsed.
+Participants reported then, when using Google, it took, on average, 6.94 minutes by examining in average 7.57 online sources to find a fix.
+When using BUMPER, however, it only took around 4.5 minutes. The feedback we received from the participants was very encouraging. They mainly emphasized the ability for BUMPER to group many repositories in one place, making the search for similar fixes practical. We intend in the future to conduct a large scale experiment with BUMPER for a thorough evaluation of its effectiveness to help software developers in fixing bugs.
 
-We send our survey to 20 participant ant got 8 responses (40\%) and asked them to report their experience in terms of time taken to find a fix and webpages browsed.
-Participants reported then, when using Google, it took, on average, 6.94 minutes and 7.57 sources to find a fix.
-When using Bumper, however, it took only 4.5 minutes and one webpage (i.e. https://bumper-app.com).
+2)	Studying bug-fix relationships
+We see also BUMPER as an important tool for facilitating research in the area of mining bug repositories. Studying software repositories to gain insight into the quality of the code is a common practice. However, this task requires time and skills in order to download and link all the pieces of informations needed for adequate mining. BUMPER provides a straightforward interface to export bugs and their fixes into CSV, XML and JSON. As an example, if one wants to extract the features of a bug report that get fixed quickly (this type of analysis is performed in [11]), the following query can be used:
+
+(type:"BUG" AND fixing_time:[0 TO 10] –churns:0) OR (type:"BUG" AND fixing_time:[200 TO *] –churns:0)&facet=true&facet.field=project
+The query returns bugs that have been fixed in less than 10 days and bugs that have been fixed in more than 200 days. Moreover, the &facet=true&facet.field=project part of the query l provides a count of each category (e.g., less than 10 days and more than 200 days) by projects. Finally, researchers can press the XML, CSV or JSON button, shown in Figure 1. to export their data in the desired format.
+In short, BUMPER offers a framework that can be used by software practitioners and researchers to analyse (efficiently) bugs and their fixes without having to go from one repository to another,  worry about the way data is represented and saved, or create tools for parsing and retrieving various data attributes. We hope that the community contributes by adding more repositories to BUMPER. This way, BUMPER can become a unified environment that can facilitate bug analysis and mining tasks.
 
 
-\section{Related Works}
-\label{sec:Related Works}
+\section{Experiments}
+\label{sec:Experiments}
+
+.
+
+
+\section{Related Work}
+\label{sec:Related Work}
 
 Codemine \cite{Czerwonka2013} and Boa \cite{Bizer2011} are two well-known projects that enable the mining and reporting of code repository, including bug report and related fixes.
 Both tools, however, will require the download of all the data and process the mining for each installation.
