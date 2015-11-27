@@ -11,6 +11,8 @@
 \usepackage[linesnumbered]{algorithm2e}
 \usepackage{tikz}
 
+\setlength{\belowdisplayskip}{2pt} \setlength{\belowdisplayshortskip}{2pt}
+\setlength{\abovedisplayskip}{2pt} \setlength{\abovedisplayshortskip}{2pt}
 
 \begin{document}
 
@@ -45,7 +47,7 @@ abdelw@ece.concordia.ca}}
 
 \section{Introduction}
 
-Debugging programs, an important software maintenance activity, is challenging \cite{Pressman2005} and labour-intensive. Studies have shown that the cost of software maintenance can reach up to 70\% of the overall cost of the software development process [REF].
+Debugging programs, an important software maintenance activity, is challenging  and labour-intensive. Studies have shown that the cost of software maintenance can reach up to 70\% of the overall cost of the software development process \cite{Pressman2005}.
 
 When facing a yet unknown bug, one might want to leverage decades of open-source software history in order to find a solution. The chances are that a similar bug or crash has already been fixed somewhere in another open-source project.
 
@@ -56,7 +58,7 @@ The former follows the life of the bug, while the latter manages the fixes.
 As a general practice, developers create a link between the bug report system and the version control tool by either writing the bug \#ID in their commits message or add a link towards the changeset as a comment in the bug report system.
 
 As a result, one would have to search the version control system repository to find candidate solutions.
- Moreover, developers mainly use classical search engines that index specialized sites such as StackOverflow [FOOTNOTE]. These sites are organized in the form of question-response where a developer submits a problem and receives answers from the community. While the answers are often accurate and precise, they do not leverage the history of open-source software that has been shown to provide useful insight to help with many maintenance activities such as bug fixing\cite{Saha2014}, bug reproduction\cite{Chen2013a}, fault analysis\cite{Nessa2008}, etc.
+ Moreover, developers mainly use classical search engines that index specialized sites such as StackOverflow\footnote{http://stackoverflow.com/}. These sites are organized in the form of question-response where a developer submits a problem and receives answers from the community. While the answers are often accurate and precise, they do not leverage the history of open-source software that has been shown to provide useful insight to help with many maintenance activities such as bug fixing\cite{Saha2014}, bug reproduction\cite{Chen2013a}, fault analysis\cite{Nessa2008}, etc.
 
 In this paper, we introduce BUMPER (BUg Metarepository for dEvelopers and Researchers), a web-based infrastructure that can be used by software developers and researchers to access data from diverse repositories using natural language queries in a transparent manner, regardless of where the data were originally created and hosted.
 
@@ -71,10 +73,14 @@ Finally, we asked developers to solve a bug using habitual habit and using BUMPE
 \section{Bumper Components}
 \label{sec:Bumper Components}
 
-Figure 1 shows BUMPER’s main interface. Currently, BUMPER supports 380 projects, more than 100,000 resolved/fixed and with 60,000 changesets from Netbeans and the Apache Software Foundation software systems. It can readily be extended to support other systems. 
+Figure 1 shows BUMPER’s main interface. Currently, BUMPER supports 380 projects, more than 732,000 resolved/fixed and with 1,645,252 changesets from Eclipse, Netbeans, the Apache Software Foundation and Gnome software systems. It can readily be extended to support other systems.
 
 
-
+\begin{figure}
+  \centering
+  \includegraphics[width=0.45\textwidth]{media/interface.png}
+  \caption{Bumper Interface}
+\end{figure}
 
 
 
@@ -82,8 +88,13 @@ Figure 1 shows BUMPER’s main interface. Currently, BUMPER supports 380 project
 \subsection{Bumper architecture}
 \label{sub:Bumper architecture}
 
-Figure 2 shows the overall architecture of BUMPER. BUMPER relies on a highly scalable architecture composed of two Virtual Private Servers (VPS), hosted on a physical server. 
+Figure 2 shows the overall architecture of BUMPER. BUMPER relies on a highly scalable architecture composed of two Virtual Private Servers (VPS), hosted on a physical server.
 
+\begin{figure}
+  \centering
+  \includegraphics[width=0.45\textwidth]{media/archi.png}
+  \caption{Bumper Architecture}
+\end{figure}
 
 
 
@@ -149,12 +160,12 @@ BUMPER supports two query modes: basic and advanced.
 The basic query insert users' inputs (YOUR TERMS) in the
 following query:
 
-\begin{equation}
+\begin{equation*}
 \begin{split}
-~~(type:``BUG"~AND~report_t:``YOUR~TERMS"~\\
+~~(type:``BUG"~AND~report\_t:``YOUR~TERMS"~\\
 ~~AND~-churns:0)
 \end{split}
-\end{equation}
+\end{equation*}
 
 
 
@@ -166,12 +177,12 @@ do not have a fix (-churns:0).
 The result of this subquery will be
 merged with the following:
 
-\begin{equation}
+\begin{equation*}
 \begin{split}
 ~~OR~(\{!parent~which=``type:BUG"\}type:~\\
-~~``CHANGESET"~AND~fix_t:``YOUR~TERMS"
+~~``CHANGESET"~AND~fix\_t:``YOUR~TERMS"
 \end{split}
-\end{equation}
+\end{equation*}
 
 This query selects all bugs' changeset--using a parent-child
 relationship $(\{!parent~which=``type:BUG"\}~type:
@@ -180,13 +191,13 @@ relationship $(\{!parent~which=``type:BUG"\}~type:
 Finally, the results of the two
 previous queries will be added to the following subquery:
 
-\begin{equation}
+\begin{equation*}
 \begin{split}
   OR~(\{!parent~which=``type:BUG"\}\ \\
 ~\{!parent~which=``type:CHANGESET"\}\\
-~type:``HUNKS"~AND~fix_t:``YOUR~TERMS")
+~type:``HUNKS"~AND~fix\_t:``YOUR~TERMS")
 \end{split}
-\end{equation}
+\end{equation*}
 
 The query selects all the hunks that are child of changsets and
 grand-child of bug report $ (\{!parent~which=``type:BUG"\}
@@ -202,15 +213,15 @@ they need.
 As an example, using the advanced query mode, one
 could write the following:
 
-\begin{equation}
+\begin{equation*}
 \begin{split}
   (type:``BUG"~AND~report_t:``Exception"~\\
 ~~AND~(project:``Axis2"~OR~project:``ide")~\\
 ~~AND~(reporter:``Rich"~OR~resolution:``fixed")~\\
-~~AND~(severity:``Major"~OR~fixing_time:[10~TO~*])~\\
+~~AND~(severity:``Major"~OR~fixing\_time:[10~TO~*])~\\
 ~~AND~-churns:0)
 \end{split}
-\end{equation}
+\end{equation*}
 
 This query finds all bug reports that contain Exception in the
 report\_t index (first line) and belong to the Axis2 or the ide
@@ -226,7 +237,7 @@ be found at https://bumper-app.com/api.
 \label{sub:Bumper Data Repository}
 
 First, we extract the raw data from bug report management systems of five different open source institutions used in this study: Gnome, Eclipse, Netbeans, Apache Software Foundation and Github.
-Each institution is composed of many open source projects: 10, 192, 39, 349 and 250, respectively. Summing up to 840 different open source projects.
+Each institution is composed of many open source projects: 512, 190, 39 and 349 , respectively. Summing up to 1,930 different open source projects.
 
 The extracted data is consolidated in one database where we associate each bug report with its fix.
 The fixes are mined from different types of source versioning system.
@@ -236,32 +247,29 @@ Gnome is a free desktop environment, mainly developed in c and c++ by volunteers
 
 Eclipse and Netbeans are integrated development environments (IDEs) for developing with many programming languages, including Java, PHP, and C/C++.
 
-The Apache Software Foundation (ASF) is a non-profit public charity established in 1999, that provides services and support for many like-minded software project communities of individuals who choose to join the ASF.
-
-Finally, Github is a free web-based Git repository hosting service that allows anyone to create, version and maintain a team development project while using Git as source code management and Github issues as Bug management system.
+Finally, The Apache Software Foundation (ASF) is a non-profit public charity established in 1999, that provides services and support for many like-minded software project communities of individuals who choose to join the ASF.
 
 The characteristics of the five datasets used in this paper are presented in Table~\ref{tab:summary}.
-Cumulatively, these datasets span from 2001 to 2014.
+Cumulatively, these datasets span from 1999 to 2015.
 
 \begin{table}[]
 \centering
 \caption{
-RESOLVED/FIXED BUG (R/F BR),  CHANGSETS (CS), AND
+RESOLVED/FIXED BUG (R/F BR),  CHANGESETS (CS), AND
 PROJECTS BY DATASET}
 \label{tab:summary}
 \begin{tabular}{c|c|c|c|c}
 \textbf{Dataset} & \textbf{R/F BR} & \textbf{CS} & \textbf{Files} & \textbf{Projects} \\ \hline \hline
-Gnome            &                 &             &                & 10                \\ \hline
+Gnome            & 550,869         & 1,231,354   & 367,245        & 512                \\ \hline
 Netbeans         & 53,258          & 122,632     & 30,595         & 39                \\ \hline
 Apache           & 49,449          & 106,366     & 38,111         & 349               \\ \hline
-Eclipse          &                 &             &                & 192               \\ \hline
-Github           &                 &             &                & 250               \\ \hline
-Total            &                 &             &                & 840               \\ \hline \hline
+Eclipse          & 78,830          & 184,900     & 21,712         & 190                \\ \hline \hline
+Total            & 732,406         & 1,645,252   & 457,663        & 1,930               \\ \hline \hline
 \end{tabular}
 \end{table}
 
-In summary, our consolidated dataset contains 102,707 bugs, 229,153 changesets, 68,809 files that have been modified to fix the bugs, 462,848 comments, and 388 distinct software tools.
-We also collected 221 million lines of code impacted by the changesets, identified 3,284 sub-projects, and 17,984 unique contributors to these bug report systems.
+In summary, our consolidated dataset contains 732,406 bugs, 1,645,252 changesets, 457,663 files that have been modified to fix the bugs and 1930 distinct software projects belonging to four major organizations.
+We also collected more than two billions lines of code impacted by the changesets, identified tens of thousands sub-projects and unique contributors to these bug report systems.
 
 We choose these five datasets because they expose a great diversity in terms of the programming languages used to develop the applications, the size of the development teams, localization, utility and maturity.
 Moreover, the used different tools, i.e.
@@ -272,13 +280,14 @@ systems such as Eclipse, Mozilla Foundation datasets. The BUMPER architecture ca
 access multiple repositories in a unified manner.
 
 
-\subsection{Usage Scenarios}
-\label{sub:Bumper Data Repository}
+\section{Usage Scenarios}
 
-1)	Bug Fixing
+\subsection{Bug Fixing}
+\label{subs:Bug Fixing}
 
-An example of a real-life scenario where BUMPER can be useful would be that a developer trying to fix a bug. He or she could copy paste the faulty code, or the obtained error in the search bar of BUMPER. BUMPER will then return (in the matter of seconds) every bug report that contains references to the error at hand in the report or in the code developed to fix the bug in our 388 projects and 102,707 bugs. The developer can then leverage BUMPER’s search results to either find out that someone already fixed the exact same bug in another project and reuse the fix, analyse similar bugs—and their fixes—to design a solution for the problem, etc. 
-We conducted a preliminary study to assess the effectiveness of BUMPER to help with bug fixing tasks. 
+
+An example of a real-life scenario where BUMPER can be useful would be that a developer trying to fix a bug. He or she could copy paste the faulty code, or the obtained error in the search bar of BUMPER. BUMPER will then return (in the matter of seconds) every bug report that contains references to the error at hand in the report or in the code developed to fix the bug in our 1,930 projects and 732,406 bugs. The developer can then leverage BUMPER’s search results to either find out that someone already fixed the exact same bug in another project and reuse the fix, analyse similar bugs—and their fixes—to design a solution for the problem, etc.
+We conducted a preliminary study to assess the effectiveness of BUMPER to help with bug fixing tasks.
 We ask a group of developers to find a suitable solution of the presented bug online as would have in a classical debugging / maintenance session and repeat the operation using BUMPER.
 Finally, participants were asked to report how long it took to find a suitable solution with both methods and to rate their experience using BUMPER.
 
@@ -300,19 +309,24 @@ We send our survey to 20 participants and received 8 responses (40\%) and asked 
 Participants reported then, when using Google, it took, on average, 6.94 minutes by examining in average 7.57 online sources to find a fix.
 When using BUMPER, however, it only took around 4.5 minutes. The feedback we received from the participants was very encouraging. They mainly emphasized the ability for BUMPER to group many repositories in one place, making the search for similar fixes practical. We intend in the future to conduct a large scale experiment with BUMPER for a thorough evaluation of its effectiveness to help software developers in fixing bugs.
 
-2)	Studying bug-fix relationships
+\subsection{Studying bug-fix relationships}
+\label{subs:Studying bug-fix relationships}
+
 We see also BUMPER as an important tool for facilitating research in the area of mining bug repositories. Studying software repositories to gain insight into the quality of the code is a common practice. However, this task requires time and skills in order to download and link all the pieces of informations needed for adequate mining. BUMPER provides a straightforward interface to export bugs and their fixes into CSV, XML and JSON. As an example, if one wants to extract the features of a bug report that get fixed quickly (this type of analysis is performed in [11]), the following query can be used:
 
-(type:"BUG" AND fixing_time:[0 TO 10] –churns:0) OR (type:"BUG" AND fixing_time:[200 TO *] –churns:0)&facet=true&facet.field=project
-The query returns bugs that have been fixed in less than 10 days and bugs that have been fixed in more than 200 days. Moreover, the &facet=true&facet.field=project part of the query l provides a count of each category (e.g., less than 10 days and more than 200 days) by projects. Finally, researchers can press the XML, CSV or JSON button, shown in Figure 1. to export their data in the desired format.
+\begin{equation*}
+\begin{split}
+  (type:``BUG" AND fixing\_time:[0 TO 10]~\–churns:0) \\
+  OR (type:``BUG" AND fixing\_time:[200 TO *] \\ \–churns:0)\&facet=true\&facet.field=project
+\end{split}
+\end{equation*}
+
+
+
+The query returns bugs that have been fixed in less than 10 days and bugs that have been fixed in more than 200 days.
+Moreover, the $\&facet=true\&facet.field=project$ part of the query provides a count of each category (e.g., less than 10 days and more than 200 days) by projects.
+Finally, researchers can press the XML, CSV or JSON button, shown in Figure 1. to export their data in the desired format.
 In short, BUMPER offers a framework that can be used by software practitioners and researchers to analyse (efficiently) bugs and their fixes without having to go from one repository to another,  worry about the way data is represented and saved, or create tools for parsing and retrieving various data attributes. We hope that the community contributes by adding more repositories to BUMPER. This way, BUMPER can become a unified environment that can facilitate bug analysis and mining tasks.
-
-
-\section{Experiments}
-\label{sec:Experiments}
-
-.
-
 
 \section{Related Work}
 \label{sec:Related Work}
@@ -327,7 +341,7 @@ Providing a unified, online, and easily accessible datasets have been shown to b
 \section{Conclusion}
 \label{sec:conclusion}
 
-In this paper, we presented an online tool named BUMPER (BUg Metarepository for dEvelopers and Researchers) accessible at https://bumper-app.com. BUMPER allows natural language searches in bugs reports, commit messages and source code all together while supporting complex queries and contain 380 projects, more than 100,000 resolved/fixed and with 60,000 changesets that were involved in fixing them from Netbeans and The Apache Software foundation’s software.
+In this paper, we presented an online tool named BUMPER (BUg Metarepository for dEvelopers and Researchers) accessible at https://bumper-app.com. BUMPER allows natural language searches in bugs reports, commit messages and source code all together while supporting complex queries and contain 1,930 projects, more than 732,406 resolved/fixed and with 1,645,252 changesets that were involved in fixing them from Eclipse, Gnome, Netbeans and The Apache Software foundation’s software.
 
 The speed of BUMPER allows developers to use it as a way to leverage decades of history scattered over hundreds of software projects in order to find existing solutions to their problems.
 Furthermore, users found a solution to a simple bug 40\% faster using Bumper than Google.
