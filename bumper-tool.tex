@@ -15,6 +15,28 @@
 \setlength{\abovedisplayskip}{2pt} \setlength{\abovedisplayshortskip}{2pt}
 
 
+\def\@maketitle{\newpage
+ \null
+ \setbox\@acmtitlebox\vbox{%
+\baselineskip 20pt
+\vskip 2em                   % Vertical space above title.
+   \begin{center}
+    {\ttlfnt \@title\par}       % Title set in 18pt Helvetica (Arial) bold size.
+    \vskip 1.5em                % Vertical space after title.
+%This should be the subtitle.
+{\subttlfnt \the\subtitletext\par}\vskip 1.25em%\fi
+    {\baselineskip 16pt\aufnt   % each author set in \12 pt Arial, in a
+     \lineskip .5em             % tabular environment
+     \begin{tabular}[t]{c}\@author
+     \end{tabular}\par}
+    \vskip 1.5em               % Vertical space after author.
+   \end{center}}
+ \dimen0=\ht\@acmtitlebox
+% \advance\dimen0 by -12.75pc\relax % comment by Marco Daniel
+ \unvbox\@acmtitlebox
+ \ifdim\dimen0<0.0pt\relax\vskip-\dimen0\fi}
+\makeatother
+
 \begin{document}
 
 \title{BUMPER: A Tool for Coping with Natural Language Searches of Millions of Bugs and Fixes}
@@ -30,10 +52,13 @@ m\_nayrol@ece.concordia.ca}
 \IEEEauthorblockA{Software Behaviour Analysis (SBA) Research Lab\\
 ECE, Concordia University\\
 Montreal, Canada\\
-abdelw@ece.concordia.ca}}
+abdelw@ece.concordia.ca}
+
+}
 
 % make the title area
 \maketitle
+
 
 % As a general rule, do not put math, special symbols or citations
 % in the abstract
@@ -57,7 +82,7 @@ The data is not represented in a uniform way either. This is further complicated
 As a general practice, developers create a link between the bug report system and the version control tool by either writing the bug \#ID in their commits message or add a link towards the changeset as a comment in the bug report system.
 
 As a result, one would have to search the version control system repository to find candidate solutions.
- Moreover, developers mainly use classical search engines that index specialized sites such as StackOverflow\footnote{http://stackoverflow.com/}. These sites are organized in the form of question-response where a developer submits a problem and receives answers from the community. While the answers are often accurate and precise, they do not leverage the history of open source software that has been shown to provide useful insight to help with many maintenance activities such as bug fixing\cite{Saha2014}, bug reproduction\cite{Chen2013a}, fault analysis\cite{Nessa2008}, etc.
+ Moreover, developers mainly use classical search engines that index specialized sites such as StackOverflow\footnote{http://stackoverflow.com/}. These sites are organized in the form of question-response where a developer submits a problem and receives answers from the community. While the answers are often accurate and precise, they do not leverage the history of open source software that has been shown to provide useful insight to help with many maintenance activities such as bug fixing\cite{Saha2014}, bug reproduction\cite{Nayrolles2015c}, fault analysis\cite{Nessa2008}, etc.
 
 In this paper, we introduce BUMPER (BUg Metarepository for dEvelopers and Researchers), a web-based infrastructure that can be used by software developers and researchers to access data from diverse repositories using natural language queries in a transparent manner, regardless of where the data was originally created and hosted.
 
@@ -77,11 +102,10 @@ Figure 1 shows the overall architecture of BUMPER. BUMPER relies on a highly sca
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.45\textwidth]{media/archi.png}
+  \includegraphics[width=0.4\textwidth]{media/archi.png}
   \caption{Bumper Architecture}
+\vspace{-1.8em}
 \end{figure}
-
-\vspace{-10em}
 
 The first server handles the web requests and
 runs three distinct components: Pound, Varnish, and NginX.
@@ -111,9 +135,8 @@ An issue (task) is characterized by a date, title, description, and a fixing tim
   \centering
   \includegraphics[width=0.7\textwidth]{media/Bumper-Model.png}
   \caption{BUMPER Metamodel\label{fig:bumper-metamodel}}
+\vspace{-1.8em}
 \end{figure*}
-
-\vspace{-2em}
 
 Issues are reported (created) by and assigned to users.
 Also, issues belong to a project that is in a repository and might be composed of subprojects.
@@ -224,12 +247,9 @@ be found at https://bumper-app.com/api.
 \label{sub:Bumper Data Repository}
 
 Currently, BUMPER supports five bug report management systems, namely, Gnome, Eclipse, Netbeans, Apache Software Foundation, and Github that are composed of 512, 190, 39 and 349 projects respectively, bringing the total of projects supported by BUMPER to 1,930. These projects cover 16 years of development from 1999 to 2015.
-
 Gnome is a free desktop environment, mainly developed in C and C++. Eclipse and Netbeans are integrated development environments (IDEs) for developing with many programming languages, including Java, PHP, and C/C++. Finally, The Apache Software Foundation (ASF) is a non-profit public charity established in 1999, that provides services and support for many like-minded software project communities of individuals who choose to join the ASF.
-
 The extracted data is consolidated in one database where we associate each bug report with its fix.
 The fixes are mined from different types of version control systems. Gnome, Eclipse and Apache Software Foundation projects are based on Git (or have git-based mirrors), whereas Netbeans uses Mercurial.
-
 The characteristics of the five datasets, aggregated in BUMPER,  are presented in Table~\ref{tab:summary}.
 
 
@@ -247,7 +267,7 @@ Apache           & 49,449          & 106,366     & 38,111         & 349         
 Eclipse          & 78,830          & 184,900     & 21,712         & 190                \\ \hline \hline
 Total            & 732,406         & 1,645,252   & 457,663        & 1,930               \\ \hline \hline
 \end{tabular}
-\vspace{-2em}
+\vspace{-2.5em}
 \end{table}
 
 As we can see from the table, our consolidated dataset contains 732,406 bugs, 1,645,252 changesets, 457,663 files that have been modified to fix the bugs and 1,930 distinct software projects belonging to four major organizations.
