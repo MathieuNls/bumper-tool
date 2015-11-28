@@ -14,6 +14,7 @@
 \setlength{\belowdisplayskip}{2pt} \setlength{\belowdisplayshortskip}{2pt}
 \setlength{\abovedisplayskip}{2pt} \setlength{\abovedisplayshortskip}{2pt}
 
+
 \begin{document}
 
 \title{BUMPER: A Tool for Coping with Natural Language Searches of Millions of Bugs and Fixes}
@@ -80,6 +81,7 @@ Figure 1 shows the overall architecture of BUMPER. BUMPER relies on a highly sca
   \caption{Bumper Architecture}
 \end{figure}
 
+\vspace{-10em}
 
 The first server handles the web requests and
 runs three distinct components: Pound, Varnish, and NginX.
@@ -110,6 +112,8 @@ An issue (task) is characterized by a date, title, description, and a fixing tim
   \includegraphics[width=0.7\textwidth]{media/Bumper-Model.png}
   \caption{BUMPER Metamodel\label{fig:bumper-metamodel}}
 \end{figure*}
+
+\vspace{-2em}
 
 Issues are reported (created) by and assigned to users.
 Also, issues belong to a project that is in a repository and might be composed of subprojects.
@@ -219,7 +223,7 @@ be found at https://bumper-app.com/api.
 \subsection{Bumper Data Repository}
 \label{sub:Bumper Data Repository}
 
-Currently, BUMPER supports five bug report management systems, namely, Gnome, Eclipse, Netbeans, Apache Software Foundation, and Github that are composed of 512, 190, 39 and 349 projects respectively, bringing the total of projects supported by BUMPER to 1,930. These projects cover 16 years of development from 1999 to 2015. 
+Currently, BUMPER supports five bug report management systems, namely, Gnome, Eclipse, Netbeans, Apache Software Foundation, and Github that are composed of 512, 190, 39 and 349 projects respectively, bringing the total of projects supported by BUMPER to 1,930. These projects cover 16 years of development from 1999 to 2015.
 
 Gnome is a free desktop environment, mainly developed in C and C++. Eclipse and Netbeans are integrated development environments (IDEs) for developing with many programming languages, including Java, PHP, and C/C++. Finally, The Apache Software Foundation (ASF) is a non-profit public charity established in 1999, that provides services and support for many like-minded software project communities of individuals who choose to join the ASF.
 
@@ -243,6 +247,7 @@ Apache           & 49,449          & 106,366     & 38,111         & 349         
 Eclipse          & 78,830          & 184,900     & 21,712         & 190                \\ \hline \hline
 Total            & 732,406         & 1,645,252   & 457,663        & 1,930               \\ \hline \hline
 \end{tabular}
+\vspace{-2em}
 \end{table}
 
 As we can see from the table, our consolidated dataset contains 732,406 bugs, 1,645,252 changesets, 457,663 files that have been modified to fix the bugs and 1,930 distinct software projects belonging to four major organizations.
@@ -257,7 +262,7 @@ We also collected more than two billions lines of code impacted by the changeset
 
 An example of a real-life scenario where BUMPER can be useful would be that of a developer trying to fix a bug. He or she could copy paste the faulty code, or the obtained error in the search bar of BUMPER. BUMPER will then return (in the matter of seconds) every bug report that contains references to the error at hand in the report or in the code developed to fix the bug in our dataset. The developer can then leverage BUMPER’s search results to either find out that someone already fixed the exact same bug in another project and reuse the fix, analyse similar bugs—and their fixes—to design a solution for the problem, etc.
 
-We conducted a preliminary study to assess the effectiveness of BUMPER to help with bug fixing tasks. We asked  a group of developers to fill out an online survey\footnote{http://goo.gl/forms/RvYFACkl7a} to see how much time it takes to fix the following made-up bug\footnote{https://github.com/MathieuNls/bumper-csv}: 
+We conducted a preliminary study to assess the effectiveness of BUMPER to help with bug fixing tasks. We asked  a group of developers to fill out an online survey\footnote{http://goo.gl/forms/RvYFACkl7a} to see how much time it takes to fix the following made-up bug\footnote{https://github.com/MathieuNls/bumper-csv}:
 
 \textit{When I run the CSVReader with a simple main like this:}
 
@@ -275,21 +280,27 @@ The solution to this simple bug is straightforward as we only have to add a null
 Participants were asked to find a code snippet that can be slightly modified in order to fix a bug using BUMPER and Google. The goal of the experiment was to compare how fast a suitable fix can be found using BUMPER and Google.
 We send our survey to 20 participants and received 8 responses (40\%) and asked them to report their experience in terms of time taken to find a fix and webpages that were browsed.
 Participants reported then, when using Google, it took, on average, 6.94 minutes by examining, in average, 7.57 online sources to find a fix.
-When using BUMPER, however, it only took around 4.5 minutes. The participants only needed to use BUMPER and not other website. 
+When using BUMPER, however, it only took around 4.5 minutes. The participants only needed to use BUMPER and not other website.
 
 The feedback we received from the participants was very encouraging. They mainly emphasized the ability for BUMPER to group many repositories in one place, making the search for similar fixes practical. We intend, in the future, to conduct a large scale experiment with BUMPER for a thorough evaluation of its effectiveness to help software developers in fixing bugs.
 
 \subsection{Studying bug-fix relationships}
 \label{subs:Studying bug-fix relationships}
 
-We see also BUMPER as an important tool for facilitating research in the area of mining bug repositories. Studying software repositories to gain insight into the quality of the code is a common practice. However, this task requires time and skills in order to download and link all the pieces of informations needed for adequate mining. BUMPER provides a straightforward interface to export bugs and their fixes into CSV, XML and JSON. 
+We see also BUMPER as an important tool for facilitating research in the area of mining bug repositories. Studying software repositories to gain insight into the quality of the code is a common practice. However, this task requires time and skills in order to download and link all the pieces of informations needed for adequate mining. BUMPER provides a straightforward interface to export bugs and their fixes into CSV, XML and JSON.
 
 In short, BUMPER offers a framework that can be used by software practitioners and researchers to analyse (efficiently) bugs and their fixes without having to go from one repository to another,  worry about the way data is represented and saved, or create tools for parsing and retrieving various data attributes. We hope that the community contributes by adding more repositories to BUMPER. This way, BUMPER can become a unified environment that can facilitate bug analysis and mining tasks.
 
-\section{Conclusion}
+\section{Related work and conclusion}
 \label{sec:conclusion}
 
-In this paper, we presented a web-based infrastructure, called BUMPER (BUg Metarepository for dEvelopers and Researchers), accessible at https://bumper-app.com. BUMPER allows natural language searches in bugs reports, commit messages and source code all together while supporting complex queries. Currently, BUMPER is populated with  1,930 projects, more than 732,406 resolved/fixed and with 1,645,252 changesets from Eclipse, Gnome, Netbeans and the Apache Software foundation. The speed of BUMPER allows developers to use it as a way to leverage decades of history scattered over hundreds of software projects in order to find existing solutions to their problems. The feedback we received from the users of BUMPER in a preliminary study shows that BUMPER hold real promise in the future to becoming a standard search engine for bugs and fixes in multiple repositories. 
+In this paper, we presented a web-based infrastructure, called BUMPER (BUg Metarepository for dEvelopers and Researchers), accessible at https://bumper-app.com. BUMPER allows natural language searches in bugs reports, commit messages and source code all together while supporting complex queries. Currently, BUMPER is populated with  1,930 projects, more than 732,406 resolved/fixed and with 1,645,252 changesets from Eclipse, Gnome, Netbeans and the Apache Software foundation. The speed of BUMPER allows developers to use it as a way to leverage decades of history scattered over hundreds of software projects in order to find existing solutions to their problems.
+
+
+While other tools such as Codemine \cite{Czerwonka2013} and Boa \cite{Bizer2011}  enable the mining and reporting of code repository, including bug report and related fixes.
+Both tools, however, will require the download of all the data and process the mining for each installation.
+
+To the best of our knowledge, no attempt has been made towards building an unified and online datasets, from multiple sources, where all the information related to a bug, or a fix can be easily accessed by researchers and engineers in order to leverage decades of historical information. Moreover, the feedback we received from the users of BUMPER in a preliminary study shows that BUMPER hold real promise in the future to becoming a standard search engine for bugs and fixes in multiple repositories.
 
 
 \bibliographystyle{IEEEtran}
