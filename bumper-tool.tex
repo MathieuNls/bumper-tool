@@ -73,18 +73,16 @@ In recent years, mining bug report (BR) repositories has perhaps been one of the
 
 \section{Introduction}
 
-Program debugging, an important software maintenance activity, is known to be challenging and labour-intensive. Studies have shown that the cost of software maintenance can reach up to 70\% of the overall cost of the software development process \cite{Pressman2005}.
+Program debugging, an important software maintenance activity, is known to be challenging and labor-intensive. Studies have shown that the cost of software maintenance can reach up to 70\% of the overall cost of the software development process \cite{Pressman2005}.
 
 When facing a new bug, one might want to leverage decades of open source software history to find a suitable solution. The chances are that a similar bug or crash has already been fixed somewhere in another open source project. The problem is that each open source project hosts its data in a different data repository, using different bug tracking and version control systems. Moreover, these systems have different interfaces to access data.
 The data is not represented in a uniform way either. This is further complicated by the fact that bug tracking tools and version control systems are not necessarily connected. The former follows the life of the bug, while the latter manages the fixes. As a general practice, developers create a link between the bug report system and the version control tool by either writing the bug \#ID in their commits message or add a link towards the changeset as a comment in the bug report system. As a result, one would have to search the version control system repository to find candidate solutions.
 
 Moreover, developers mainly use classical search engines that index specialized sites such as StackOverflow\footnote{http://stackoverflow.com/}. These sites are organized in the form of question-response where a developer submits a problem and receives answers from the community. While the answers are often accurate and precise, they do not leverage the history of open source software that has been shown to provide useful insights to help with many maintenance activities such as bug fixing\cite{Saha2014}, bug reproduction\cite{Nayrolles2015c}, fault analysis\cite{Nessa2008}, etc.
 
-In this paper, we introduce BUMPER (BUg Metarepository for dEvelopers and Researchers), a web-based infrastructure that can be used by software developers and researchers to access data from diverse repositories using natural language queries in a transparent manner, regardless of where the data was originally created and hosted.
+In this paper, we introduce BUMPER\footnote{A showcase of BUMPER is available at https://bumper-app.com/showcase.html} (BUg Metarepository for dEvelopers and Researchers), a web-based infrastructure that can be used by software developers and researchers to access data from diverse repositories using natural language queries in a transparent manner, regardless of where the data was originally created and hosted.
 
-The idea behind BUMPER is that it can connect to any bug tracking and version control systems and download the data into a single database. We created a common schema that represents data, stored in various bug tracking and version control systems. BUMPER uses a web-based interface to allow users to search the aggregated database by expressing queries through a single point of access. This way, users can focus on the analysis itself and not on the way the data is represented or located.
-
-BUMPER supports many features including: (1) the ability to use multiple bug tracking and control version systems, (2) the ability to search very efficiently large data repositories using both natural language and a specialized query language, (3) the mapping between the bug reports and the fixes, and (4) the ability to export the search results in Json, CSV and XML formats.
+The idea behind BUMPER is that it can connect to any bug tracking and version control systems and download the data into a single database. We created a common schema that represents data, stored in various bug tracking and version control systems. BUMPER uses a web-based interface to allow users to search the aggregated database by expressing queries through a single point of access. This way, users can focus on the analysis itself and not on the way the data is represented or located. BUMPER supports many features including: (1) the ability to use multiple bug tracking and control version systems, (2) the ability to search very efficiently large data repositories using both natural language and a specialized query language, (3) the mapping between the bug reports and the fixes, and (4) the ability to export the search results in Json, CSV and XML formats.
 
 \section{Bumper Components}
 \label{sec:Bumper Components}
@@ -168,7 +166,7 @@ following query:
 \end{split}
 \end{equation*}
 
-
+\vspace{0.1cm}
 
 The first part of the query matches all bug reports
 (type:"BUG") that contain YOUR TERMS in the report\_t index
@@ -185,6 +183,8 @@ merged with the following:
 \end{split}
 \end{equation*}
 
+\vspace{0.1cm}
+
 This query selects all bugs' changeset--using a parent-child
 relationship $(\{!parent~which=``type:BUG"\}~type:
   ``CHANGESET")$ -- and that contain YOUR TERMS in the fix\_t
@@ -199,6 +199,8 @@ previous queries will be added to the following subquery:
 ~type:``HUNKS"~AND~fix\_t:``YOUR~TERMS")
 \end{split}
 \end{equation*}
+
+\vspace{0.1cm}
 
 The query selects all the hunks that are children of changsets and
 grand-children of bug report $ (\{!parent~which=``type:BUG"\}
@@ -223,6 +225,8 @@ could write the following:
 ~~AND~-churns:0)
 \end{split}
 \end{equation*}
+
+\vspace{0.1cm}
 
 This query finds all bug reports that contain Exception in the
 report\_t index (first line) and belong to the Axis2 or the ide
@@ -258,7 +262,7 @@ Apache           & 49,449          & 106,366     & 38,111         & 349         
 Eclipse          & 78,830          & 184,900     & 21,712         & 190                \\ \hline \hline
 Total            & 732,406         & 1,645,252   & 457,663        & 1,930               \\ \hline \hline
 \end{tabular}
-\vspace{-2.5em}
+\vspace{-2em}
 \end{table}
 
 As we can see from the table, our consolidated dataset contains 732,406 bugs, 1,645,252 changesets, 457,663 files that have been modified to fix the bugs and 1,930 distinct software projects belonging to four major organizations.
