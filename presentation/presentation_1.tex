@@ -27,6 +27,8 @@
 \usepackage{xcolor}
 \usepackage{pgfplots}
 \usepackage{tikz}
+\usepackage{listings}
+\usepackage[linesnumbered]{algorithm2e}
 
 \definecolor{bblue}{HTML}{4F81BD}
 \definecolor{rred}{HTML}{C0504D}
@@ -120,81 +122,29 @@ Software Behaviour Analysis (SBA) Research Lab, ECE,  Concordia, Montr\'eal, Can
 
 
 \begin{frame}
-\frametitle{Software are pledged to have bugs ... }
-
-
-\vspace{0.3cm}
-\begin{itemize}
-\item What do we do about it ?
-\vspace{0.3cm}
-\begin{itemize}
-\vspace{0.3cm}
-\item Bug reports are submitted (Github, Bugzilla, JIRA, ...) and assigned
-\begin{itemize}
-\item Who should fix this bug? - Anvik \textit{et al.} 2006
-\end{itemize}
-\item Developer craft a bug-fix.
-\begin{itemize}
-\item Toward an understanding of bug fix patterns - Pan \textit{et al.} 2009
-\item Where should the bugs be fixed? More accurate information retrieval-based bug localization based on bug reports - Zhou \textit{et al.} 2012
-\end{itemize}
-\item Bug report closed / marked RESOLVED / FIXED
-\begin{itemize}
-\item How long will it take to fix this bug? - Weiss \textit{et al.} 2007
-\item Characterizing and predicting which bugs get reopened - Zimmermann \textit{et al.} 2012
-\end{itemize}
-\end{itemize}
-\end{itemize}
-\end{frame}
-
-\begin{frame}
 \frametitle{What developers do when facing an unknow bug ?}
 
 \begin{itemize}
-\item Open questions in face-to-face interviews with 10 undegrades, 5 graduates, 7 junior dev. \& 3 senior dev.
+  \item In 2015, we surveyed:
+  \begin{enumerate}
+    \item \'Ecole de T\'echnologie Sup\'erieure, Montr\'eal, Qu\'ebec, Canada
+    \item Universit\'e du Qu\'ebec \`A Montr\'eal, Monr\'eal, Qu\'ebec, Canada
+    \item Concordia University, Montr\'eal, Qu\'ebec, Canada
+    \item Participants of 2015 the Consortium on Software Engineering and Refactoring, Toronto, Ontario, Canada.
+  \end{enumerate}
 
 
-\begin{enumerate}
   \item When facing an unknown bug, crash or exception, where do you look for informations ?
   \item When facing an unknown bug, crash or exception, what are you searching for ?
-\end{enumerate}
 
-
-\item Build an online multiple choices survey with their responses
-
+\item 150 people and got 89 responses (59\%)
 \end{itemize}
 
 \end{frame}
 
 \begin{frame}
-\frametitle{Software are pledged to have bugs}
-
-
-\vspace{0.3cm}
-\begin{enumerate}
-  \item When facing an unknown bug, crash or exception, where do you look for informations ?
-  \begin{enumerate}[a)]
-    \item Online search engines (Google, Bing, ...).
-    \item Online specialized websites (Stackoverflow, ...)
-    \item Offline search (Books, Slides, ...).
-    \item Official documentation of the project / programming languages / api (Offline and Online).
-  \end{enumerate}
-  \item When facing an unknown bug, crash or exception, what are you searching for ?
-  \begin{enumerate}[a)]
-    \item How to do X.
-    \item The exception yield by the crash / bug.
-    \item Official documentation of the project / programming languages / api (Offline and Online).
-  \end{enumerate}
-
-\end{enumerate}
-\begin{itemize}
-\item 150 peoples and got 89 responses (59\%)
-\item http://bit.ly/bumper-cser
-\end{itemize}
-\end{frame}
-
-\begin{frame}
-\frametitle{What developers do when facing an unknow bug ?}
+\frametitle{When facing an unknown bug, crash or exception, where do you look
+for informations ?}
 
 
 \input{s1-q1}
@@ -203,11 +153,46 @@ Software Behaviour Analysis (SBA) Research Lab, ECE,  Concordia, Montr\'eal, Can
 \end{frame}
 
 \begin{frame}
-\frametitle{What developers search for facing an unknow bug ?}
-
+\frametitle{When facing an unknown bug, crash or exception, what are you
+searching for?}
 
 \input{s1-q2}
 
+\end{frame}
+
+\begin{frame}
+
+  \frametitle{Survey Results}
+
+\begin{itemize}
+  \item Results are not suprizing.
+  \begin{enumerate}
+    \item Online searches
+    \item How to do X
+    \item Copy/past the exception at hand
+  \end{enumerate}
+  \item Usually, a solution is quickly found, but ...
+  \item Pain in navigating between bug report systems and code versionning systems.
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+
+\frametitle{BUMPER}
+\begin{itemize}
+\item BUMPER: Bug Metarepository Search Engine for Developers and Researchers
+\begin{itemize}
+\item Aggregates information from bug report and code versionning systems
+\item Online Search Engine with million bug reports AND fixes from major open-source repositories
+\item Apache Software Foundation, Netbeans, Eclipse, Gnome, FireFox, Chrome, Kde, ...
+\item Imports bugs reports from Bugzilla, JIRA and Github, ... and fixes from SVN, Mercurial, Git, ...
+\item Natural language for developers
+\item Advanced API for researchers
+\end{itemize}
+
+\end{itemize}
 
 \end{frame}
 
@@ -217,10 +202,6 @@ Software Behaviour Analysis (SBA) Research Lab, ECE,  Concordia, Montr\'eal, Can
 
   \begin{table}[]
   \centering
-  \caption{
-  RESOLVED/FIXED BUG (R/F BR),  CHANGESETS (CS), AND
-  PROJECTS BY DATASET}
-  \label{tab:summary}
   \begin{tabular}{c|c|c|c|c}
   \textbf{Dataset} & \textbf{R/F BR} & \textbf{CS} & \textbf{Files} & \textbf{Projects} \\ \hline \hline
   Gnome            & 550,869         & 1,231,354   & 367,245        & 512                \\ \hline
@@ -236,11 +217,11 @@ Software Behaviour Analysis (SBA) Research Lab, ECE,  Concordia, Montr\'eal, Can
 
 \begin{frame}
 
-  \frametitle{BUMPER Metamodel}
+  \frametitle{Google-like usage for developers}
 
   \begin{figure*}
     \centering
-    \includegraphics[width=0.9\textwidth]{../media/Bumper-Model.png}
+    \includegraphics[width=1\textwidth]{../media/interface.png}
   \vspace{-1.8em}
   \end{figure*}
 
@@ -248,18 +229,84 @@ Software Behaviour Analysis (SBA) Research Lab, ECE,  Concordia, Montr\'eal, Can
 
 \begin{frame}
 
-  \frametitle{BUMPER Use Cases}
+  \frametitle{Bug report and bug fix, side by side}
+
+  \begin{figure*}
+    \centering
+    \includegraphics[width=1\textwidth]{../media/interface2.png}
+  \end{figure*}
+
+\end{frame}
+
+\begin{frame}
+
+  \frametitle{Using BUMPER for bug-fixing tasks}
+
+  \textit{When I run the CSVReader with a simple main like this:}
+
+  \noindent\begin{minipage}{0.90\linewidth}
+
+   \lstinputlisting[language=Java, firstnumber=1, numbers=right, stepnumber=1, label=javabug, caption=Java Bug]{../media/bug.java}
+
+  \end{minipage}
+
+  \textit{I got the following Exception: Exception in thread ``main" java.lang.NullPointerException at CsvFileUtils.readOneLine(CsvFileUtils.java:22) at Main.main(Main.java:11). Can you please fix CsvFileUtils ?}
+\end{frame}
+
+
+
+\begin{frame}
+
+  \frametitle{Using BUMPER for bug-fixing tasks cont'd}
+
+
+  \begin{itemize}
+    \item New survey (20 developers, 40\% response)
+    \item Find a suitable code snippet to fix the bug using
+    \begin{itemize}
+      \item Google search engine
+      \item Bumper search engine
+    \end{itemize}
+  \end{itemize}
+  \\ \\
+  \begin{itemize}
+    \item Google 6.94 minutes and 7.57 web pages
+    \item BUMPER 4.5 minutes and 1 web page (https://bumper-app.com)
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+  \frametitle{BUMPER Metamodel}
+
+  \begin{figure*}
+    \centering
+    \includegraphics[width=1\textwidth]{../media/Bumper-Model.png}
+  \vspace{-1.8em}
+  \end{figure*}
+
+\end{frame}
+
+\begin{frame}
+
+  \frametitle{API Usage for researchers}
 
 \begin{itemize}
-  \item Search for $"YOUR~TERMS"$ in bug reports and bug fix.
+  \item All fields are indexed for fast search
+  \item Two special indexes:
+  \begin{itemize}
+    \item \texttt{report\_t}: Contains a concatenation of all the bug-related fields
+    \item \texttt{fix\_t}: Contains a concatenation of all the fix-related fields
+  \end{itemize}
+  \item Search for $"YOUR~TERMS"$ in bug reports and bug fixes:
 \end{itemize}
 
   \begin{equation*}
   \begin{split}
-  ~~(type:``BUG"~AND~report\_t:``YOUR~TERMS"~~AND~-churns:0)\\
+  ~~(type:``BUG"~AND~report\_t:``YOUR~TERMS"\\AND~-churns:0)\\
   ~~OR~\\
-  ~~(\{!parent~which=``type:BUG"\}type:~\\
-  ~~``CHANGESET"~AND~fix\_t:``YOUR~TERMS")
+  ~~(\{!parent~which=``type:BUG"\}type:~``CHANGESET"~\\AND~fix\_t:``YOUR~TERMS")
   \end{split}
   \end{equation*}
 
@@ -267,12 +314,21 @@ Software Behaviour Analysis (SBA) Research Lab, ECE,  Concordia, Montr\'eal, Can
 
 \begin{frame}
 
-  \frametitle{BUMPER Use Cases Cont'd}
+  \frametitle{API usage cont'd}
 
+\begin{itemize}
+  \item Bug reports with at least one fix having:
+  \begin{itemize}
+    \item The word ``Exception'' in the bug report
+    \item Belonging to ``Axis2'' or ``ide'' projects
+    \item Reported by ``Rich'' or is ``fixed''
+    \item With a ``major'' severity or a fixing time greated than 10 days
+  \end{itemize}
+\end{itemize}
 
   \begin{equation*}
   \begin{split}
-    (type:``BUG"~AND~report_t:``Exception"~\\
+    (type:``BUG"~AND~report\_t:``Exception"~\\
   ~~AND~(project:``Axis2"~OR~project:``ide")~\\
   ~~AND~(reporter:``Rich"~OR~resolution:``fixed")~\\
   ~~AND~(severity:``Major"~OR~fixing\_time:[10~TO~*])~\\
@@ -283,49 +339,9 @@ Software Behaviour Analysis (SBA) Research Lab, ECE,  Concordia, Montr\'eal, Can
 
 \end{frame}
 
-\begin{frame}
-
-  \frametitle{Or ... you can let BUMPER find what your are looking for...}
-
-  \begin{figure*}
-    \centering
-    \includegraphics[width=0.9\textwidth]{../media/interface.png}
-  \vspace{-1.8em}
-  \end{figure*}
-
-\end{frame}
 
 \begin{frame}
-
-  \frametitle{Or ... you can let BUMPER find what your are looking for...}
-
-  \begin{figure*}
-    \centering
-    \includegraphics[width=0.9\textwidth]{../media/interface2.png}
-  \end{figure*}
-
-\end{frame}
-
-
-\begin{frame}
-
-\frametitle{BUMPER}
-\begin{itemize}
-\item BUMPER: Bug Metarepository Search Engine for Developers and Researchers
-\begin{itemize}
-\item Online Search Engine with 1 million bug reports AND fixes from major open-source repositories
-\item Apache Software Foundation, Netbeans, Eclipse, Gnome, FireFox, Chrome, Kde, ...
-\item Imports bugs reports from Bugzilla, JIRA and Github, ... and fixes from SVN, Mercurial, Git, ...
-\item Natural language for developers
-\item Advanced API for researchers
-\end{itemize}
-
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}
-\frametitle{Conclusion and Future work}
+\frametitle{Conclusion}
 
 \begin{itemize}
 \item https://bumper-app.com
@@ -334,8 +350,6 @@ Software Behaviour Analysis (SBA) Research Lab, ECE,  Concordia, Montr\'eal, Can
 \item Imports bugs from Bugzilla, JIRA and Github, ... and fixes from SVN, Mercurial, Git, ...
 \item Natural Language Search for developers
 \item Advanced API for researchers
-\vspace{0.5cm}
-\item Currently assessing how much faster a suitable solution can be found using BUMPER rather than Google/Stack Overflow/Books ...
 \end{itemize}
 
 
